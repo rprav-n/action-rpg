@@ -7,8 +7,11 @@ enum State {MOVE, ROLL, ATTACK}
 const SPEED: int = 80
 const ACCELERATION: int = 800
 const FRICTION: int = 800
+const ROLL_SPEED: int = 100
 
 var input_vector: Vector2 = Vector2.ZERO
+var roll_vector: Vector2 = Vector2.ZERO
+
 var state: State = State.MOVE
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -17,7 +20,7 @@ var state: State = State.MOVE
 @onready var animation_state: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
 
-func _physics_process(_delta: float) -> void:
+func _process(_delta: float) -> void:
 	match state:
 		State.MOVE:
 			process_move()
@@ -25,14 +28,10 @@ func _physics_process(_delta: float) -> void:
 			process_attack()
 		State.ROLL:
 			process_roll()
-
-
-func _process(_delta: float) -> void:
-	if state == State.MOVE:
-		set_input_vector()
-
+		
 
 func process_move() -> void:
+	set_input_vector()
 	handle_movement()
 	move_and_slide()
 	update_animation()
@@ -41,14 +40,21 @@ func process_move() -> void:
 func process_attack() -> void:
 	velocity = Vector2.ZERO
 	animation_state.travel("Attack")
+	
+
+func process_roll() -> void:
+	velocity = roll_vector * ROLL_SPEED
+	animation_state.travel("Roll")
+	move_and_slide()
 
 
 func attack_animation_finished() -> void:
 	state = State.MOVE
 
 
-func process_roll() -> void:
-	pass
+func roll_animation_finished() -> void:
+	velocity = Vector2.ZERO
+	state = State.MOVE
 
 
 func set_input_vector() -> void:
@@ -57,6 +63,8 @@ func set_input_vector() -> void:
 	input_vector = input_vector.normalized()
 	if Input.is_action_just_pressed("attack"):
 		state = State.ATTACK
+	if Input.is_action_just_pressed("roll"):
+		state = State.ROLL
 
 
 func handle_movement() -> void:
@@ -69,9 +77,11 @@ func handle_movement() -> void:
 
 func update_animation() -> void:
 	if input_vector != Vector2.ZERO:
+		roll_vector = input_vector
 		animation_tree.set("parameters/Idle/blend_position", input_vector)
 		animation_tree.set("parameters/Run/blend_position", input_vector)
 		animation_tree.set("parameters/Attack/blend_position", input_vector)
+		animation_tree.set("parameters/Roll/blend_position", input_vector)
 		animation_state.travel("Run")
 	else:
 		animation_state.travel("Idle")
