@@ -16,6 +16,7 @@ var state: State = State.MOVE
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var animation_state: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
+
 func _physics_process(_delta: float) -> void:
 	match state:
 		State.MOVE:
@@ -26,8 +27,12 @@ func _physics_process(_delta: float) -> void:
 			process_roll()
 
 
+func _process(_delta: float) -> void:
+	if state == State.MOVE:
+		set_input_vector()
+
+
 func process_move() -> void:
-	set_input_vector()
 	handle_movement()
 	move_and_slide()
 	update_animation()
