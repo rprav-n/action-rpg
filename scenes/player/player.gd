@@ -18,6 +18,11 @@ var state: State = State.MOVE
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var animation_state: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
+@onready var sword_hitbox: SwordHitBox = $HitboxPivot/SwordHitbox
+
+
+func _ready() -> void:
+	sword_hitbox.knock_back_vector = roll_vector
 
 
 func _process(_delta: float) -> void:
@@ -78,6 +83,7 @@ func handle_movement() -> void:
 func update_animation() -> void:
 	if input_vector != Vector2.ZERO:
 		roll_vector = input_vector
+		sword_hitbox.knock_back_vector = roll_vector
 		animation_tree.set("parameters/Idle/blend_position", input_vector)
 		animation_tree.set("parameters/Run/blend_position", input_vector)
 		animation_tree.set("parameters/Attack/blend_position", input_vector)
