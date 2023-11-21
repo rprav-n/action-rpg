@@ -2,7 +2,7 @@ class_name Grass
 
 extends Node2D
 
-var grass_effect_scene: PackedScene = preload("res://scenes/effects/grass_effect/grass_effect.tscn")
+const grass_effect_scene: PackedScene = preload("res://scenes/effects/grass_effect/grass_effect.tscn")
 
 
 func spawn_grass_effect() -> void:

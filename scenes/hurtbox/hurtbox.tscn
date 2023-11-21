@@ -1,5 +1,10 @@
-[gd_scene format=3 uid="uid://4b24a55cs228"]
+[gd_scene load_steps=2 format=3 uid="uid://4b24a55cs228"]
+
+[ext_resource type="Script" path="res://scenes/hurtbox/hurtbox.gd" id="1_yr7br"]
 
 [node name="Hurtbox" type="Area2D"]
+script = ExtResource("1_yr7br")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

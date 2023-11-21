@@ -7,7 +7,7 @@ const MOVE: int = 150
 
 @onready var stats: Stats = $Stats
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-var enemy_death_effect_scene: PackedScene = preload("res://scenes/effects/enemy_death/enemy_death_effect.tscn")
+const enemy_death_effect_scene: PackedScene = preload("res://scenes/effects/enemy_death/enemy_death_effect.tscn")
 
 
 func _physics_process(delta: float) -> void:
