@@ -10,7 +10,7 @@ const FRICTION: int = 800
 const ROLL_SPEED: int = 100
 
 var input_vector: Vector2 = Vector2.ZERO
-var roll_vector: Vector2 = Vector2.ZERO
+var roll_vector: Vector2 = Vector2.DOWN
 
 var state: State = State.MOVE
 
