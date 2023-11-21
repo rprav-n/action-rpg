@@ -1,5 +1,5 @@
 class_name SwordHitBox
 
-extends Area2D
+extends Hitbox
 
 var knock_back_vector: Vector2 = Vector2.ZERO
