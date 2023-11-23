@@ -25,7 +25,7 @@ func _ready() -> void:
 	sword_hitbox.knock_back_vector = roll_vector
 
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	match state:
 		State.MOVE:
 			process_move()
